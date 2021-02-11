@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +21,12 @@ Route::get('/', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
+
+Route::get('/verification/{id}', function ($id) {
+    $user=\App\Models\User::find($id);
+    $user->email_verified_at=Carbon::now('America/La_Paz')->toDateTimeString();$user->save();
+    return redirect('/');
+})->name('verification');
+
+
+
