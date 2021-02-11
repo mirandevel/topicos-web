@@ -20,6 +20,8 @@ class CreatePersonasTable extends Migration
             $table->text('img_perfil')->nullable();
             $table->char('estado');
             $table->string('direccion');
+            $table->integer('telefono');
+            $table->char('sexo');
             $table->char('tipo');
             $table->timestamps();
         });

@@ -15,6 +15,8 @@ class Persona extends Model
         'img_perfil',
         'estado',
         'direccion',
+        'telefono',
+        'sexo',
         'tipo',
     ];
 }

@@ -38,6 +38,8 @@ class AuthController extends Controller
                 'img_perfil' => $request['img_perfil'],
                 'estado' => $request['estado'],
                 'direccion' => $request['direccion'],
+                'telefono' => $request['telefono'],
+                'sexo' => $request['sexo'],
                 'tipo' => $request['tipo'],
             ]);
 
