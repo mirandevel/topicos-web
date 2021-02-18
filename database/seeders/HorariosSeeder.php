@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+
 use App\Models\Horario;
 use GuzzleHttp\Promise\Create;
 use Illuminate\Database\Seeder;
@@ -16,7 +17,7 @@ class HorariosSeeder extends Seeder
     public function run()
     {
         Horario::create([
-            'hora'=>'07:00:00'
+            'hora'=>'07:00:00',
         ]);
         Horario::create([
             'hora'=>'07:30:00',
