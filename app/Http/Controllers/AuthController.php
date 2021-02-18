@@ -30,48 +30,63 @@ class AuthController extends Controller
         ]);
 
         if(!$validator->fails()) {
+            $persona = $this->crearPersona($request);
 
-
-            $persona = Persona::create([
-                'nombre' => $request['nombre'],
-                'ci' => $request['ci'],
-                'img_perfil' => $request['img_perfil'],
-                'estado' => $request['estado'],
-                'direccion' => $request['direccion'],
-                'telefono' => $request['telefono'],
-                'sexo' => $request['sexo'],
-                'tipo' => $request['tipo'],
-            ]);
-
-            $user = User::create([
-                'email' => $request['email'],
-                'password' => Hash::make($request['password']),
-                'persona_id' => $persona->id,
-            ]);
-
-            $trabajador = Trabajador::create([
-                'persona_id' => $persona->id,
-                'habilitado' => false,
-            ]);
+            $user = $this->crearUsuario($request,$persona->id);
+            $trabajador = $this->crearTrabajador($persona->id);
 
             foreach ($request['servicio_trabajador'] as $item) {
-                ServicioTrabajador::create([
-                    'fecha' => Carbon::now('America/La_Paz')->toDateString(),
-                    'dias' => $item->dias,
-                    'hora_inicio' => $item->hora_inicio,
-                    'hora_fin' => $item->hora_fin,
-
-                    'trabajador_id' => $trabajador->id,
-                    'servicio_id' => $item->servicio_id,
-                ]);
+                crearServicioTrabajador($trabajador->id, $item);
             }
             $this->sendEmail($request['email'], $user->id);
 
-            return response()->json(['status_code' => 200, 'message' => 'Correo enviado']);
+            return $this->convertirAJSON('Correo enviado');
+           // return response()->json(['message' => 'Correo enviado']);
         }else{
-            return response()->json(['status_code'=>400,'message'=>$validator->errors()]);
+            return $this->convertirAJSON($validator->errors());
+            //return response()->json(['message'=>$validator->errors()]);
         }
     }
+    public function crearPersona(Request $request){
+        return Persona::create([
+            'nombre' => $request['nombre'],
+            'ci' => $request['ci'],
+            'img_perfil' => $request['img_perfil'],
+            'estado' => $request['estado'],
+            'direccion' => $request['direccion'],
+            'telefono' => $request['telefono'],
+            'sexo' => $request['sexo'],
+            'tipo' => $request['tipo'],
+        ]);
+    }
+    public function crearUsuario(Request $request, $persona_id){
+        return User::create([
+            'email' => $request['email'],
+            'password' => Hash::make($request['password']),
+            'persona_id' => $persona_id,
+        ]);
+    }
+    public function crearTrabajador($persona_id){
+        return Trabajador::create([
+            'persona_id' => $persona_id,
+            'habilitado' => false,
+        ]);
+    }
+    public function crearServicioTrabajador($trabajador_id, $item){
+        ServicioTrabajador::create([
+            'fecha' => Carbon::now('America/La_Paz')->toDateString(),
+            'dias' => $item->dias,
+            'hora_inicio' => $item->hora_inicio,
+            'hora_fin' => $item->hora_fin,
+
+            'trabajador_id' => $trabajador_id,
+            'servicio_id' => $item->servicio_id,
+        ]);
+    }
+    public function convertirAJSON($mensaje){
+        return response()->json(['message'=>$mensaje]);
+    }
+
 
     public function login(Request $request)
     {
