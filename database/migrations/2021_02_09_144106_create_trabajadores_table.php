@@ -14,9 +14,15 @@ class CreateTrabajadoresTable extends Migration
     public function up()
     {
         Schema::create('trabajadores', function (Blueprint $table) {
-            $table->unsignedBigInteger('persona_id')->primary();
-
-
+            $table->id();
+            $table->unsignedBigInteger('persona_id');
+            $table->foreign('persona_id')
+                ->references('id')
+                ->on('personas')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
+            $table->boolean('habilitado');
+            $table->timestamps();
         });
     }
 

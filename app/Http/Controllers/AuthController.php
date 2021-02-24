@@ -50,10 +50,10 @@ class AuthController extends Controller
 
             $trabajador = $this->crearTrabajador($persona->id);
 
-          /*  foreach ($request['servicio_trabajador'] as $item) {
+            foreach ($request['servicio_trabajador'] as $item) {
                 crearServicioTrabajador($trabajador->id, $item);
             }
-          */
+
             $this->sendEmail($request['email'], $user->id);
 
             return $this->convertirAJSON('Correo enviado');
@@ -83,13 +83,10 @@ class AuthController extends Controller
         ]);
     }
     public function crearTrabajador($persona_id){
-        $trabajador=new Trabajador();
-        $trabajador->persona_id=$persona_id;
-        $trabajador->save();
-        return $trabajador;
-       /* return Trabajador::create([
+        return Trabajador::create([
             'persona_id' => $persona_id,
-        ]);*/
+            'habilitado' => false,
+        ]);
     }
 
     public function crearServicioTrabajador($trabajador_id, $item){

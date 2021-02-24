@@ -9,8 +9,8 @@ class Trabajador extends Model
 {
     use HasFactory;
     protected $table='trabajadores';
-    public $timestamps=false;
     protected $fillable=[
         'persona_id',
+        'habilitado'
     ];
 }

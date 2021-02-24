@@ -25,7 +25,7 @@ class CreateServicioTrabajadorTable extends Migration
 
 
             $table->foreign('trabajador_id')
-                ->references('persona_id')
+                ->references('id')
                 ->on('trabajadores')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
