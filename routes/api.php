@@ -30,6 +30,7 @@ Route::middleware('guest')->post('/forgot-password', [AuthController::class, 'fo
 //VERIFICATION ROUTES
 Route::post('send-mail', [AuthController::class, 'sendEmail'] )->name('email');
 
+
 //SERVICE ROUTES
 Route::get('servicios', [\App\Http\Controllers\ServiceController::class, 'obtenerServicios'] )->name('servicios');
 Route::get('horarios', [\App\Http\Controllers\DatosMaestrosController::class, 'obtenerHorarios'] )->name('horarios');

@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
+use phpDocumentor\Reflection\Types\False_;
 
 class AuthController extends Controller
 {
@@ -23,21 +24,36 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validator=Validator::make($request->all(), [
-            'name' => ['required', 'string', 'max:255'],
+            'nombre' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required'],
-            'ciudad_id' => 'exists:App\Models\Pais,id'
+
+
+            'ci' => ['required'],
+            'img_perfil' => ['required'],
+            'direccion' => ['required'],
+            'telefono' => ['required'],
+            'sexo' => ['required'],
+            'tipo' => ['required'],
+
+
+            //'servicio_trabajador' => ['required'],
+
+
+
         ]);
 
         if(!$validator->fails()) {
             $persona = $this->crearPersona($request);
 
             $user = $this->crearUsuario($request,$persona->id);
+
             $trabajador = $this->crearTrabajador($persona->id);
 
-            foreach ($request['servicio_trabajador'] as $item) {
+          /*  foreach ($request['servicio_trabajador'] as $item) {
                 crearServicioTrabajador($trabajador->id, $item);
             }
+          */
             $this->sendEmail($request['email'], $user->id);
 
             return $this->convertirAJSON('Correo enviado');
@@ -52,7 +68,7 @@ class AuthController extends Controller
             'nombre' => $request['nombre'],
             'ci' => $request['ci'],
             'img_perfil' => $request['img_perfil'],
-            'estado' => $request['estado'],
+            'estado' => 'A',
             'direccion' => $request['direccion'],
             'telefono' => $request['telefono'],
             'sexo' => $request['sexo'],
@@ -67,15 +83,19 @@ class AuthController extends Controller
         ]);
     }
     public function crearTrabajador($persona_id){
-        return Trabajador::create([
+        $trabajador=new Trabajador();
+        $trabajador->persona_id=$persona_id;
+        $trabajador->save();
+        return $trabajador;
+       /* return Trabajador::create([
             'persona_id' => $persona_id,
-            'habilitado' => false,
-        ]);
+        ]);*/
     }
+
     public function crearServicioTrabajador($trabajador_id, $item){
         ServicioTrabajador::create([
             'fecha' => Carbon::now('America/La_Paz')->toDateString(),
-            'dias' => $item->dias,
+            'dias' => $item->dias,//lun,mar,mie,jue
             'hora_inicio' => $item->hora_inicio,
             'hora_fin' => $item->hora_fin,
 
@@ -83,11 +103,19 @@ class AuthController extends Controller
             'servicio_id' => $item->servicio_id,
         ]);
     }
+
     public function convertirAJSON($mensaje){
         return response()->json(['message'=>$mensaje]);
     }
 
-
+/*
+ * DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=topicos
+DB_USERNAME=postgres
+DB_PASSWORD=5654
+ */
     public function login(Request $request)
     {
         $validator=Validator::make($request->all(), [
