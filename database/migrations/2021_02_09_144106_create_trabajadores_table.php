@@ -21,7 +21,7 @@ class CreateTrabajadoresTable extends Migration
                 ->on('personas')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
-            $table->boolean('habilitado');
+            $table->char('habilitado');
             $table->timestamps();
         });
     }

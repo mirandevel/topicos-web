@@ -86,7 +86,7 @@ class AuthController extends Controller
     public function crearTrabajador($persona_id){
         return Trabajador::create([
             'persona_id' => $persona_id,
-            'habilitado' => false,
+            'habilitado' => 'p',//P pendiente, R rechazado, A aceptado
         ]);
     }
 
