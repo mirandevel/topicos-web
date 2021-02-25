@@ -32,18 +32,10 @@ class TrabajadorController extends Controller
         $trabajador=Trabajador::find($request['id']);
         $trabajador->habilitado='a';
         $trabajador->save();
-        return Trabajador::select('trabajadores.*','personas.nombre','personas.ci','users.email')
-            ->join('personas','personas.id','=','trabajadores.persona_id')
-            ->join('users','users.persona_id','=','personas.id')
-            ->get();
     }
     public function rechazarTrabajadores(Request $request){
         $trabajador=Trabajador::find($request['id']);
         $trabajador->habilitado='r';
         $trabajador->save();
-        return Trabajador::select('trabajadores.*','personas.nombre','personas.ci','users.email')
-            ->join('personas','personas.id','=','trabajadores.persona_id')
-            ->join('users','users.persona_id','=','personas.id')
-            ->get();
     }
 }
