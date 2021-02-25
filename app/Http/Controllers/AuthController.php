@@ -51,7 +51,8 @@ class AuthController extends Controller
             $trabajador = $this->crearTrabajador($persona->id);
 
             foreach ($request['servicio_trabajador'] as $item) {
-                crearServicioTrabajador($trabajador->id, $item);
+
+                $this->crearServicioTrabajador($trabajador->id, $item);
             }
 
             $this->sendEmail($request['email'], $user->id);
