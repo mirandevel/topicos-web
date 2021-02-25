@@ -34,3 +34,6 @@ Route::post('send-mail', [AuthController::class, 'sendEmail'] )->name('email');
 //SERVICE ROUTES
 Route::get('servicios', [\App\Http\Controllers\ServiceController::class, 'obtenerServicios'] )->name('servicios');
 Route::get('horarios', [\App\Http\Controllers\DatosMaestrosController::class, 'obtenerHorarios'] )->name('horarios');
+
+//TRABAJADOR
+Route::get('trabajadores', [\App\Http\Controllers\TrabajadorController::class, 'obtenerTrabajadores'] )->name('trabajadores');
