@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Trabajador;
+use http\Client\Curl\User;
 use Illuminate\Http\Request;
 
 class TrabajadorController extends Controller
@@ -25,5 +26,24 @@ class TrabajadorController extends Controller
         ]);
     }
          */
+    }
+
+    public function aceptarTrabajadores(Request $request){
+        $trabajador=Trabajador::find($request['id']);
+        $trabajador->habilitado='a';
+        $trabajador->save();
+        return Trabajador::select('trabajadores.*','personas.nombre','personas.ci','users.email')
+            ->join('personas','personas.id','=','trabajadores.persona_id')
+            ->join('users','users.persona_id','=','personas.id')
+            ->get();
+    }
+    public function rechazarTrabajadores(Request $request){
+        $trabajador=Trabajador::find($request['id']);
+        $trabajador->habilitado='r';
+        $trabajador->save();
+        return Trabajador::select('trabajadores.*','personas.nombre','personas.ci','users.email')
+            ->join('personas','personas.id','=','trabajadores.persona_id')
+            ->join('users','users.persona_id','=','personas.id')
+            ->get();
     }
 }

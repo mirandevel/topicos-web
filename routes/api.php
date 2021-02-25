@@ -37,3 +37,5 @@ Route::get('horarios', [\App\Http\Controllers\DatosMaestrosController::class, 'o
 
 //TRABAJADOR
 Route::get('trabajadores', [\App\Http\Controllers\TrabajadorController::class, 'obtenerTrabajadores'] )->name('trabajadores');
+Route::get('trabajadores/aceptar', [\App\Http\Controllers\TrabajadorController::class, 'aceptarTrabajadores'] )->name('aceptar');
+Route::get('trabajadores/rechazar', [\App\Http\Controllers\TrabajadorController::class, 'rechazarTrabajadores'] )->name('rechazar');
