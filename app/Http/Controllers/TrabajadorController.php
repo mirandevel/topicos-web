@@ -11,6 +11,8 @@ class TrabajadorController extends Controller
         return Trabajador::select('trabajadores.*','personas.nombre','personas.ci','users.email')
             ->join('personas','personas.id','=','trabajadores.persona_id')
             ->join('users','users.persona_id','=','personas.id')
+            ->where('personas.nombre', 'LIKE', '%'.$request['nombre'].'%')
+            ->where('trabajadores.habilitado', $request['estado'])
             ->get();
     }
 }
