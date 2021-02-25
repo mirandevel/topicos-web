@@ -13,8 +13,11 @@ class TrabajadorController extends Controller
             ->join('personas','personas.id','=','trabajadores.persona_id')
             ->join('users','users.persona_id','=','personas.id');
 
-            $trabajador=$trabajador->where('habilitado',$request['estado'])
-            ->get();
+            if($request['estado']!=t){
+                $trabajador=$trabajador->where('habilitado',$request['estado'])->get();
+            }else{
+                $trabajador=$trabajador->get();
+            }
 
         return $trabajador;
     }
