@@ -11,11 +11,10 @@ class TrabajadorController extends Controller
     public function obtenerTrabajadores(Request $request){
         $trabajador=Trabajador::select('trabajadores.*','personas.nombre','personas.ci','users.email')
             ->join('personas','personas.id','=','trabajadores.persona_id')
-            ->join('users','users.persona_id','=','personas.id');
-        if($request['estado']!='t'){
-         $trabajador=$trabajador->where('habilitado',$request['estado']);
-        }
-            $trabajador=$trabajador->get();
+            ->join('users','users.persona_id','=','personas.id')
+            ->where('habilitado',$request['estado'])
+            ->get();
+
         return $trabajador;
     }
 
