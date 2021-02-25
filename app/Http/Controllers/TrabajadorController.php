@@ -11,8 +11,19 @@ class TrabajadorController extends Controller
         return Trabajador::select('trabajadores.*','personas.nombre','personas.ci','users.email')
             ->join('personas','personas.id','=','trabajadores.persona_id')
             ->join('users','users.persona_id','=','personas.id')
-            ->where('personas.nombre', 'LIKE', '%'.$request['nombre'].'%')
-            ->where('trabajadores.habilitado', $request['estado'])
             ->get();
+        /*
+         public function crearServicioTrabajador($trabajador_id, $item){
+        ServicioTrabajador::create([
+            'fecha' => Carbon::now('America/La_Paz')->toDateString(),
+            'dias' => $item["dias"],//lun,mar,mie,jue
+            'hora_inicio' => $item["hora_inicio"],
+            'hora_fin' => $item["hora_fin"],
+
+            'trabajador_id' => $trabajador_id,
+            'servicio_id' => $item["servicio_id"],
+        ]);
+    }
+         */
     }
 }
