@@ -37,7 +37,7 @@ class AuthController extends Controller
             'tipo' => ['required'],
 
 
-            //'servicio_trabajador' => ['required'],
+            'servicio_trabajador' => ['required'],
 
 
 
@@ -93,12 +93,12 @@ class AuthController extends Controller
     public function crearServicioTrabajador($trabajador_id, $item){
         ServicioTrabajador::create([
             'fecha' => Carbon::now('America/La_Paz')->toDateString(),
-            'dias' => $item->dias,//lun,mar,mie,jue
-            'hora_inicio' => $item->hora_inicio,
-            'hora_fin' => $item->hora_fin,
+            'dias' => $item["dias"],//lun,mar,mie,jue
+            'hora_inicio' => $item["hora_inicio"],
+            'hora_fin' => $item["hora_fin"],
 
             'trabajador_id' => $trabajador_id,
-            'servicio_id' => $item->servicio_id,
+            'servicio_id' => $item["servicio_id"],
         ]);
     }
 
