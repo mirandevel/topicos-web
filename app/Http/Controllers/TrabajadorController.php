@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ServicioTrabajador;
 use App\Models\Trabajador;
 use http\Client\Curl\User;
 use Illuminate\Http\Request;
@@ -40,6 +41,10 @@ class TrabajadorController extends Controller
             ->join('users','users.persona_id','=','personas.id')
             ->where('trabajadores.id',$request['id'])
             ->first();
+        $servicios=ServicioTrabajador::select('servicio_trabajador.*','servicios.nombre')
+            ->join('servicios','servicio_trabajador.servicio_id','=','servicios.id')
+            ->get();
+        $trabajador['servicios']=$servicios;
         return $trabajador;
     }
 }
