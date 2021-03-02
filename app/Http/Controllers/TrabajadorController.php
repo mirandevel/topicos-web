@@ -43,6 +43,7 @@ class TrabajadorController extends Controller
             ->first();
         $servicios=ServicioTrabajador::select('servicio_trabajador.*','servicios.nombre')
             ->join('servicios','servicio_trabajador.servicio_id','=','servicios.id')
+            ->where('servicio_trabajador.trabajador_id',$request['id'])
             ->get();
         $trabajador['servicios']=$servicios;
         return $trabajador;
