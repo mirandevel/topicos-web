@@ -35,6 +35,11 @@ class TrabajadorController extends Controller
     }
 
     public function detalleTrabajadores(Request $request){
-        return Trabajador::find($request['id']);
+        $trabajador=Trabajador::select('trabajadores.*','personas.nombre','personas.ci','users.email')
+            ->join('personas','personas.id','=','trabajadores.persona_id')
+            ->join('users','users.persona_id','=','personas.id')
+            ->where('trabajadores.id',$request['id'])
+            ->get();
+        return $trabajador;
     }
 }
