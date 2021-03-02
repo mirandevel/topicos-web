@@ -39,7 +39,7 @@ class TrabajadorController extends Controller
             ->join('personas','personas.id','=','trabajadores.persona_id')
             ->join('users','users.persona_id','=','personas.id')
             ->where('trabajadores.id',$request['id'])
-            ->get();
+            ->first();
         return $trabajador;
     }
 }
