@@ -58,6 +58,6 @@ class TrabajadorController extends Controller
             'body' => 'This is for testing email using smtp'
         ];
         \Illuminate\Support\Facades\Mail::to($email)->send(new \App\Mail\MailController($details,$id));
-        return response()->json(['email'=>'ok']);
+       // return response()->json(['email'=>'ok']);
     }
 }

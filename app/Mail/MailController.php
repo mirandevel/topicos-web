@@ -36,7 +36,7 @@ class MailController extends Mailable
                 ->view('verificar-email', ['link' => route('verification', ['id' => $this->id])]);
         }else{
             return $this->subject('Confirmar correo electronico')
-                ->view('verificar-email', ['link' => route('confirmacion', ['id' => $this->id])]);
+                ->view('confirmacion', ['id' => $this->id]);
         }
     }
 }
