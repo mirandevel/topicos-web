@@ -35,7 +35,7 @@ class TrabajadorController extends Controller
     }
 
     public function detalleTrabajadores(Request $request){
-        $trabajador=Trabajador::select('trabajadores.*','personas.nombre','personas.ci','users.email','img_perfil','direccion','telefono','sexo')
+        $trabajador=Trabajador::select('trabajadores.*','personas.nombre','personas.ci','users.email','personas.img_perfil','personas.direccion','personas.telefono','personas.sexo')
             ->join('personas','personas.id','=','trabajadores.persona_id')
             ->join('users','users.persona_id','=','personas.id')
             ->where('trabajadores.id',$request['id'])
