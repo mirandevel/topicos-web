@@ -28,11 +28,13 @@ class TrabajadorController extends Controller
         $trabajador=Trabajador::find($request['id']);
         $trabajador->habilitado='a';
         $trabajador->save();
+        $this->enviarCorreo($request['email'],-1);
     }
     public function rechazarTrabajadores(Request $request){
         $trabajador=Trabajador::find($request['id']);
         $trabajador->habilitado='r';
         $trabajador->save();
+        $this->enviarCorreo($request['email'],-2);
     }
 
     public function detalleTrabajadores(Request $request){
@@ -47,5 +49,15 @@ class TrabajadorController extends Controller
             ->get();
         $trabajador['servicios']=$servicios;
         return $trabajador;
+    }
+
+    public function enviarCorreo($email,$id)
+    {
+        $details = [
+            'title' => 'Confirmar correo electrónico',
+            'body' => 'This is for testing email using smtp'
+        ];
+        \Illuminate\Support\Facades\Mail::to($email)->send(new \App\Mail\MailController($details,$id));
+        return response()->json(['email'=>'ok']);
     }
 }

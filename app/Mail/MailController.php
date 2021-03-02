@@ -31,7 +31,12 @@ class MailController extends Mailable
      */
     public function build()
     {
-        return $this->subject('Confirmar correo electronico')
-            ->view('verificar-email',['link'=>route('verification',['id'=>$this->id])]);
+        if($this->id>=0) {
+            return $this->subject('Confirmar correo electronico')
+                ->view('verificar-email', ['link' => route('verification', ['id' => $this->id])]);
+        }else{
+            return $this->subject('Confirmar correo electronico')
+                ->view('verificar-email', ['link' => route('confirmacion', ['id' => $this->id])]);
+        }
     }
 }
