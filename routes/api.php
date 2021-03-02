@@ -35,7 +35,10 @@ Route::post('send-mail', [AuthController::class, 'sendEmail'] )->name('email');
 Route::get('servicios', [\App\Http\Controllers\ServiceController::class, 'obtenerServicios'] )->name('servicios');
 Route::get('horarios', [\App\Http\Controllers\DatosMaestrosController::class, 'obtenerHorarios'] )->name('horarios');
 
+
+
 //TRABAJADOR
 Route::get('trabajadores', [\App\Http\Controllers\TrabajadorController::class, 'obtenerTrabajadores'] )->name('trabajadores');
+Route::get('trabajadores/detalle', [\App\Http\Controllers\TrabajadorController::class, 'detalleTrabajadores'] )->name('detalle');
 Route::post('trabajadores/aceptar', [\App\Http\Controllers\TrabajadorController::class, 'aceptarTrabajadores'] )->name('aceptar');
 Route::post('trabajadores/rechazar', [\App\Http\Controllers\TrabajadorController::class, 'rechazarTrabajadores'] )->name('rechazar');

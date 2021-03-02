@@ -33,4 +33,8 @@ class TrabajadorController extends Controller
         $trabajador->habilitado='r';
         $trabajador->save();
     }
+
+    public function detalleTrabajadores(Request $request){
+        return Trabajador::find($request['id']);
+    }
 }
