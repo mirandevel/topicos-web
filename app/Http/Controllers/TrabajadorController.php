@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FCMToken;
 use App\Models\ServicioTrabajador;
 use App\Models\Trabajador;
 use http\Client\Curl\User;
@@ -29,12 +30,14 @@ class TrabajadorController extends Controller
         $trabajador->habilitado='a';
         $trabajador->save();
         $this->enviarCorreo($request['email'],-1);
+        $this->prepareNotification($request['id'],'Tu cuenta ha sido aceptada');
     }
     public function rechazarTrabajadores(Request $request){
         $trabajador=Trabajador::find($request['id']);
         $trabajador->habilitado='r';
         $trabajador->save();
         $this->enviarCorreo($request['email'],-2);
+        $this->prepareNotification($request['id'],'Tu cuenta ha sido rechazada');
     }
 
     public function detalleTrabajadores(Request $request){
@@ -59,5 +62,54 @@ class TrabajadorController extends Controller
         ];
         \Illuminate\Support\Facades\Mail::to($email)->send(new \App\Mail\MailController($details,$id));
        // return response()->json(['email'=>'ok']);
+    }
+
+
+
+    public function prepareNotification($id,$description){
+        $usuario=User::select('users.*')
+            ->join('personas','personas.id','=','users.persona_id')
+            ->join('trabajadores','personas.id','=','trabajadores.persona_id')
+            ->where('trabajadores.id',$id)
+            ->first();
+
+        $to = FCMToken::where('user_id',$usuario->id)->get();
+        foreach ($to as $token){
+            $to=$token->token;
+            $notification = array(
+                'title' => "Nueva tarea",
+                'body' => $description
+            );
+            $notification = array('to' => $to, 'notification' => $notification);
+            $this->sendNotification($notification);
+        }
+
+    }
+    public function sendNotification($notification)
+    {
+//$to = "/topics/tournaments";
+
+
+
+        //$this->sendNotif($to, $notification);
+        //$feilds = array('registration_ids' => $to, 'notification' => $notification);
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($notification));
+
+        $headers = array();
+        $headers[] = 'Authorization: Key= AAAArftN5sM:APA91bFU6mz0iJLn39SVjtxZEpGwqSE9FjzTB4xKba15I_Ija7YqT1xNTWUauM1zI0xpQfGsnI3hSt-1B8KzDzm5AwRJO_YhH-CogjtT_GDuHUC0KgNmVKXuJ5NnkVeUjjPSJS5Fm1jj';
+        $headers[] = 'Content-Type: application/json';
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        $result = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'Error:' . curl_error($ch);
+        }
+        curl_close($ch);
     }
 }
