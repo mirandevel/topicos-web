@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\FCMToken;
 use App\Models\ServicioTrabajador;
 use App\Models\Trabajador;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class TrabajadorController extends Controller
