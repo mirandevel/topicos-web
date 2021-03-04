@@ -101,7 +101,7 @@ class TrabajadorController extends Controller
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($notification));
 
         $headers = array();
-        $headers[] = 'Authorization: Key= AAAArftN5sM:APA91bFU6mz0iJLn39SVjtxZEpGwqSE9FjzTB4xKba15I_Ija7YqT1xNTWUauM1zI0xpQfGsnI3hSt-1B8KzDzm5AwRJO_YhH-CogjtT_GDuHUC0KgNmVKXuJ5NnkVeUjjPSJS5Fm1jj';
+        $headers[] = 'Authorization: Key= AAAALGBzQTk:APA91bED_xjXkZQQNRqC55O1p8T3D2zREvTCu8CKwo7kHuzEaFDo5s_oaSVKXdU4VMfbDudmd0S6mJVriMJgO4_gCntKhP-X5lFEZ5-StNffdFrzOSwRe6czeDOU0GN1izeoUswg6yxY';
         $headers[] = 'Content-Type: application/json';
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
