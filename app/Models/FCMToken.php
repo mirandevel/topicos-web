@@ -11,6 +11,7 @@ class FCMToken extends Model
     protected $table='fcmtoken';
     public $timestamps=false;
     protected $fillable=[
-        'token'
+        'token',
+        'user_id'
     ];
 }

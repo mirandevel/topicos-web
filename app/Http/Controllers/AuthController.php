@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\Fortify\PasswordValidationRules;
 use App\Http\Controllers\Controller;
+use App\Models\FCMToken;
 use App\Models\Persona;
 use App\Models\ServicioTrabajador;
 use App\Models\Trabajador;
@@ -20,7 +21,15 @@ use phpDocumentor\Reflection\Types\False_;
 class AuthController extends Controller
 {
     use PasswordValidationRules;
+    public function fcm(Request $request)
+    {
+        $token=$request['token'];
+        FCMToken::create([
+            'token'=>$token,
+            'user_id'=>$request->user()->id
+        ]);
 
+    }
     public function register(Request $request)
     {
         $validator=Validator::make($request->all(), [

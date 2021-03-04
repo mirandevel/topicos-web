@@ -16,6 +16,13 @@ class CreateFcmtokenTable extends Migration
         Schema::create('fcmtoken', function (Blueprint $table) {
             $table->id();
             $table->string('token');
+            $table->unsignedBigInteger('user_id');
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
         });
     }
 
