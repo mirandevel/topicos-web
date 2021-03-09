@@ -37,6 +37,10 @@ Route::get('servicios', [\App\Http\Controllers\ServiceController::class, 'obtene
 Route::get('horarios', [\App\Http\Controllers\DatosMaestrosController::class, 'obtenerHorarios'] )->name('horarios');
 
 
+//EMPLEADOR
+Route::post('/empleador/registro', [\App\Http\Controllers\EmpleadorController::class, 'register']);
+
+
 
 //TRABAJADOR
 Route::get('trabajadores', [\App\Http\Controllers\TrabajadorController::class, 'obtenerTrabajadores'] )->name('trabajadores');
@@ -48,4 +52,5 @@ Route::post('trabajadores/rechazar', [\App\Http\Controllers\TrabajadorController
 //BUSQUEDA
 Route::post('busqueda/servicios', [\App\Http\Controllers\BusquedaController::class, 'buscarServicios'] )->name('buscarservicios');
 Route::get('busqueda', [\App\Http\Controllers\BusquedaController::class, 'seviciosLugares'] )->name('buscarservicios');
+Route::post('trabajador/perfil', [\App\Http\Controllers\BusquedaController::class, 'detalleTrabajadores'] )->name('detalleTrabajadores');
 
