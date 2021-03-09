@@ -46,6 +46,6 @@ Route::post('trabajadores/rechazar', [\App\Http\Controllers\TrabajadorController
 
 
 //BUSQUEDA
-Route::get('busqueda/servicios', [\App\Http\Controllers\BusquedaController::class, 'buscarServicios'] )->name('buscarservicios');
+Route::post('busqueda/servicios', [\App\Http\Controllers\BusquedaController::class, 'buscarServicios'] )->name('buscarservicios');
 Route::get('busqueda', [\App\Http\Controllers\BusquedaController::class, 'seviciosLugares'] )->name('buscarservicios');
 
