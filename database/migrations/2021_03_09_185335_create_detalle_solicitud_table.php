@@ -17,7 +17,7 @@ class CreateDetalleSolicitudTable extends Migration
             $table->id();
             $table->text('descripcion');
             $table->string('ubicacion');
-            $table->float('costo');
+            $table->float('costo')->nullable();
             $table->date('fecha');
 
             $table->unsignedBigInteger('solicitud_id');
