@@ -19,10 +19,11 @@ class SolicitudController extends Controller
             ->where('users.id',$request->user()->id)
             ->first();
 
-        Solicitud::select('detalle_solicitud.*','solicitudes.estado')
+        return Solicitud::select('detalle_solicitud.*','solicitudes.estado')
             ->join('detalle_solicitud','solicitudes.id','=','detalle_solicitud.solicitud_id')
             ->where('solicitudes.trabajador_id',$trabajador->id)
             ->get();
+
     }
 
     public function crearSolicitud(Request $request){
