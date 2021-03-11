@@ -25,6 +25,18 @@ class SolicitudController extends Controller
             ->get();
 
     }
+    public function aceptarRechazar(Request $request){
+        $detalle=DetalleSolicitud::where('id',$request['detalle_id'])->first();
+        $detalle->costo=$request['costo'];
+        $detalle->save();
+
+        $solicitud=Solicitud::where('id',$request['solicitud_id'])->first();
+        $solicitud->estado=$request['estado']; //a aceptado,r rechazado, p pendiente
+        $solicitud->save();
+
+        return response()->json(['mensaje'=>'Se cambio el estado de la solicitud']);
+
+    }
 
     public function crearSolicitud(Request $request){
 
@@ -43,7 +55,12 @@ class SolicitudController extends Controller
             'servicio_id'=>$request['servicio_id'],
         ]);
 
-        $this->prepareNotification($request['trabajador_id'],'Tienes una nueva solicitud');
+        $usuario=User::select('users.*')
+            ->join('personas','personas.id','=','users.persona_id')
+            ->join('trabajadores','personas.id','=','trabajadores.persona_id')
+            ->where('trabajadores.id',$request['trabajador_id'])
+            ->first();
+        $this->prepareNotification($usuario->id,'Tienes una nueva solicitud');
 
         return response()->json(['mensaje'=>'Solicitud creada']);
     }
@@ -51,13 +68,9 @@ class SolicitudController extends Controller
 
 
     public function prepareNotification($id,$description){
-        $usuario=User::select('users.*')
-            ->join('personas','personas.id','=','users.persona_id')
-            ->join('trabajadores','personas.id','=','trabajadores.persona_id')
-            ->where('trabajadores.id',$id)
-            ->first();
 
-        $to = FCMToken::where('user_id',$usuario->id)->get();
+
+        $to = FCMToken::where('user_id',$id)->get();
         foreach ($to as $token){
             $to=$token->token;
             $notification = array(
