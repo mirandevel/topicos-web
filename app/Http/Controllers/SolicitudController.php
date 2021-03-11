@@ -16,7 +16,7 @@ class SolicitudController extends Controller
         $trabajador=Trabajador::select('trabajadores.*')
             ->join('personas','personas.id','=','trabajadores.persona_id')
             ->join('users','users.persona_id','=','personas.id')
-            ->where('trabajadores.id',$request->user()->id)
+            ->where('users.id',$request->user()->id)
             ->first();
 
         Solicitud::select('detalle_solicitud.*','solicitudes.estado')
