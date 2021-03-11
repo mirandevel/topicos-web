@@ -15,7 +15,7 @@ class CreateSolicitudesTable extends Migration
     {
         Schema::create('solicitudes', function (Blueprint $table) {
             $table->id();
-            $table->boolean('estado');
+            $table->char('estado');
             $table->unsignedBigInteger('trabajador_id');
             $table->unsignedBigInteger('persona_id');
 
