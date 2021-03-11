@@ -56,5 +56,5 @@ Route::post('trabajador/perfil', [\App\Http\Controllers\BusquedaController::clas
 
 
 Route::post('solicitud', [\App\Http\Controllers\SolicitudController::class, 'crearSolicitud'] )->name('crearSolicitud');
-Route::middleware('auth:sanctum')->post('trabajador/solicitud', [\App\Http\Controllers\SolicitudController::class, 'obtenerSolicitudesTrabajador'] )->name('obtenerSolicitudesTrabajador');
+Route::middleware('auth:sanctum')->get('trabajador/solicitud', [\App\Http\Controllers\SolicitudController::class, 'obtenerSolicitudesTrabajador'] )->name('obtenerSolicitudesTrabajador');
 
