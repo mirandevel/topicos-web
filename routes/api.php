@@ -54,3 +54,6 @@ Route::post('busqueda/servicios', [\App\Http\Controllers\BusquedaController::cla
 Route::get('busqueda', [\App\Http\Controllers\BusquedaController::class, 'seviciosLugares'] )->name('buscarservicios');
 Route::post('trabajador/perfil', [\App\Http\Controllers\BusquedaController::class, 'detalleTrabajadores'] )->name('detalleTrabajadores');
 
+
+Route::post('solicitud', [\App\Http\Controllers\SolicitudController::class, 'crearSolicitud'] )->name('crearSolicitud');
+
