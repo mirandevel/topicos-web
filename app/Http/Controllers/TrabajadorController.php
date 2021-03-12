@@ -10,72 +10,82 @@ use Illuminate\Http\Request;
 
 class TrabajadorController extends Controller
 {
-    public function obtenerTrabajadores(Request $request){
-        $trabajador=Trabajador::select('trabajadores.*','personas.nombre','personas.ci','users.email')
-            ->join('personas','personas.id','=','trabajadores.persona_id')
-            ->join('users','users.persona_id','=','personas.id')
-            ->where('personas.nombre', 'like', '%'.$request['nombre'].'%');
+    public function obtenerTrabajadores(Request $request)
+    {
+        $trabajador = Trabajador::select('trabajadores.*', 'personas.nombre', 'personas.ci', 'users.email')
+            ->join('personas', 'personas.id', '=', 'trabajadores.persona_id')
+            ->join('users', 'users.persona_id', '=', 'personas.id')
+            ->where('personas.nombre', 'like', '%' . $request['nombre'] . '%');
 
-            if($request['estado']!='t'){
-                $trabajador=$trabajador->where('habilitado',$request['estado'])->get();
-            }else{
-                $trabajador=$trabajador->get();
-            }
+        if ($request['estado'] != 't') {
+            $trabajador = $trabajador->where('habilitado', $request['estado'])->get();
+        } else {
+            $trabajador = $trabajador->get();
+        }
 
         return $trabajador;
     }
 
-    public function aceptarTrabajadores(Request $request){
-        $trabajador=Trabajador::find($request['id']);
-        $trabajador->habilitado='a';
-        $trabajador->save();
-        $this->enviarCorreo($request['email'],-1);
-        $this->prepareNotification($request['id'],'Tu cuenta ha sido aceptada');
-    }
-    public function rechazarTrabajadores(Request $request){
-        $trabajador=Trabajador::find($request['id']);
-        $trabajador->habilitado='r';
-        $trabajador->save();
-        $this->enviarCorreo($request['email'],-2);
-        $this->prepareNotification($request['id'],'Tu cuenta ha sido rechazada');
+    public function obtenerTodos()
+    {
+    return Trabajador::all()();
     }
 
-    public function detalleTrabajadores(Request $request){
-        $trabajador=Trabajador::select('trabajadores.*','personas.nombre','personas.ci','users.email','personas.img_perfil','personas.direccion','personas.telefono','personas.sexo')
-            ->join('personas','personas.id','=','trabajadores.persona_id')
-            ->join('users','users.persona_id','=','personas.id')
-            ->where('trabajadores.id',$request['id'])
+    public function aceptarTrabajadores(Request $request)
+    {
+        $trabajador = Trabajador::find($request['id']);
+        $trabajador->habilitado = 'a';
+        $trabajador->save();
+        $this->enviarCorreo($request['email'], -1);
+        $this->prepareNotification($request['id'], 'Tu cuenta ha sido aceptada');
+    }
+
+    public function rechazarTrabajadores(Request $request)
+    {
+        $trabajador = Trabajador::find($request['id']);
+        $trabajador->habilitado = 'r';
+        $trabajador->save();
+        $this->enviarCorreo($request['email'], -2);
+        $this->prepareNotification($request['id'], 'Tu cuenta ha sido rechazada');
+    }
+
+    public function detalleTrabajadores(Request $request)
+    {
+        $trabajador = Trabajador::select('trabajadores.*', 'personas.nombre', 'personas.ci', 'users.email', 'personas.img_perfil', 'personas.direccion', 'personas.telefono', 'personas.sexo')
+            ->join('personas', 'personas.id', '=', 'trabajadores.persona_id')
+            ->join('users', 'users.persona_id', '=', 'personas.id')
+            ->where('trabajadores.id', $request['id'])
             ->first();
-        $servicios=ServicioTrabajador::select('servicio_trabajador.*','servicios.nombre')
-            ->join('servicios','servicio_trabajador.servicio_id','=','servicios.id')
-            ->where('servicio_trabajador.trabajador_id',$request['id'])
+        $servicios = ServicioTrabajador::select('servicio_trabajador.*', 'servicios.nombre')
+            ->join('servicios', 'servicio_trabajador.servicio_id', '=', 'servicios.id')
+            ->where('servicio_trabajador.trabajador_id', $request['id'])
             ->get();
-        $trabajador['servicios']=$servicios;
+        $trabajador['servicios'] = $servicios;
         return $trabajador;
     }
 
-    public function enviarCorreo($email,$id)
+    public function enviarCorreo($email, $id)
     {
         $details = [
             'title' => 'Confirmar correo electrónico',
             'body' => 'This is for testing email using smtp'
         ];
-        \Illuminate\Support\Facades\Mail::to($email)->send(new \App\Mail\MailController($details,$id));
-       // return response()->json(['email'=>'ok']);
+        \Illuminate\Support\Facades\Mail::to($email)->send(new \App\Mail\MailController($details, $id));
+        // return response()->json(['email'=>'ok']);
     }
 
 
-
-    public function prepareNotification($id,$description){
-        $usuario=User::select('users.*')
-            ->join('personas','personas.id','=','users.persona_id')
-            ->join('trabajadores','personas.id','=','trabajadores.persona_id')
-            ->where('trabajadores.id',$id)
+    public function prepareNotification($id, $description)
+    {
+        $usuario = User::select('users.*')
+            ->join('personas', 'personas.id', '=', 'users.persona_id')
+            ->join('trabajadores', 'personas.id', '=', 'trabajadores.persona_id')
+            ->where('trabajadores.id', $id)
             ->first();
 
-        $to = FCMToken::where('user_id',$usuario->id)->get();
-        foreach ($to as $token){
-            $to=$token->token;
+        $to = FCMToken::where('user_id', $usuario->id)->get();
+        foreach ($to as $token) {
+            $to = $token->token;
             $notification = array(
                 'title' => "Nueva tarea",
                 'body' => $description
@@ -85,10 +95,10 @@ class TrabajadorController extends Controller
         }
 
     }
+
     public function sendNotification($notification)
     {
 //$to = "/topics/tournaments";
-
 
 
         //$this->sendNotif($to, $notification);
