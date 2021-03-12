@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\FCMToken;
+use App\Models\Persona;
 use App\Models\ServicioTrabajador;
 use App\Models\Trabajador;
 use App\Models\User;
@@ -28,7 +29,10 @@ class TrabajadorController extends Controller
 
     public function obtenerTodos()
     {
-    return Trabajador::all();
+    return Persona::select('personas.*','users.email')
+        ->join('users','users.personas_id','=','personas.id')
+        ->join('trabajadores','trabajadores.personas_id','=','personas.id')
+        ->get();
     }
 
     public function aceptarTrabajadores(Request $request)
