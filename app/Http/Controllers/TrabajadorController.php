@@ -30,8 +30,8 @@ class TrabajadorController extends Controller
     public function obtenerTodos()
     {
     return Persona::select('personas.*','users.email')
-        ->join('users','users.personas_id','=','personas.id')
-        ->join('trabajadores','trabajadores.personas_id','=','personas.id')
+        ->join('users','users.persona_id','=','personas.id')
+        ->join('trabajadores','trabajadores.persona_id','=','personas.id')
         ->get();
     }
 
