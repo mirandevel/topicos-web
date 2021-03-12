@@ -28,7 +28,7 @@ class TrabajadorController extends Controller
 
     public function obtenerTodos()
     {
-    return Trabajador::all()();
+    return Trabajador::all();
     }
 
     public function aceptarTrabajadores(Request $request)
