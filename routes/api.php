@@ -48,6 +48,7 @@ Route::get('trabajadores/todos', [\App\Http\Controllers\TrabajadorController::cl
 Route::get('trabajadores/detalle', [\App\Http\Controllers\TrabajadorController::class, 'detalleTrabajadores'] )->name('detalle');
 Route::post('trabajadores/aceptar', [\App\Http\Controllers\TrabajadorController::class, 'aceptarTrabajadores'] )->name('aceptar');
 Route::post('trabajadores/rechazar', [\App\Http\Controllers\TrabajadorController::class, 'rechazarTrabajadores'] )->name('rechazar');
+Route::post('trabajadores/servicio', [\App\Http\Controllers\TrabajadorController::class, 'servicoTrabajadores'] )->name('servicoTrabajadores');
 
 
 //BUSQUEDA

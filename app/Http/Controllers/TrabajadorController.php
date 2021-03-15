@@ -68,6 +68,17 @@ class TrabajadorController extends Controller
         return $trabajador;
     }
 
+    public function servicoTrabajadores(Request $request){
+        return Persona::select('personas.*','users.email')
+            ->join('users','users.persona_id','=','personas.id')
+            ->join('trabajadores','trabajadores.persona_id','=','personas.id')
+            ->join('servicio_trabajador', 'servicio_trabajador.trabajador_id', '=', 'trabajadores.id')
+            ->join('servicios', 'servicio_trabajador.servicio_id', '=', 'servicios.id')
+            ->where('servicios.nombre',$request['servicio'])
+            ->get();
+
+    }
+
     public function enviarCorreo($email, $id)
     {
         $details = [
