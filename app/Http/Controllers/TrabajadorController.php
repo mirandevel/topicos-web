@@ -29,29 +29,28 @@ class TrabajadorController extends Controller
 
     public function obtenerTodos()
     {
-    return Persona::select('personas.*','users.email')
-        ->join('users','users.persona_id','=','personas.id')
-        ->join('trabajadores','trabajadores.persona_id','=','personas.id')
-        ->get();
+        return Persona::select('personas.*', 'users.email')
+            ->join('users', 'users.persona_id', '=', 'personas.id')
+            ->join('trabajadores', 'trabajadores.persona_id', '=', 'personas.id')
+            ->get();
     }
 
-    public function aceptarTrabajadores(Request $request)
+    public function aceptarRechazarTrabajadores(Request $request)
     {
         $trabajador = Trabajador::find($request['id']);
-        $trabajador->habilitado = 'a';
-        $trabajador->save();
-        $this->enviarCorreo($request['email'], -1);
-        $this->prepareNotification($request['id'], 'Tu cuenta ha sido aceptada');
+        if ($request['accion'] == 1) {
+            $trabajador->habilitado = 'a';
+            $trabajador->save();
+            $this->enviarCorreo($request['email'], -1);
+            $this->prepareNotification($request['id'], 'Tu cuenta ha sido aceptada');
+        } else {
+            $trabajador->habilitado = 'r';
+            $trabajador->save();
+            $this->enviarCorreo($request['email'], -2);
+            $this->prepareNotification($request['id'], 'Tu cuenta ha sido rechazada');
+        }
     }
 
-    public function rechazarTrabajadores(Request $request)
-    {
-        $trabajador = Trabajador::find($request['id']);
-        $trabajador->habilitado = 'r';
-        $trabajador->save();
-        $this->enviarCorreo($request['email'], -2);
-        $this->prepareNotification($request['id'], 'Tu cuenta ha sido rechazada');
-    }
 
     public function detalleTrabajadores(Request $request)
     {
@@ -68,13 +67,14 @@ class TrabajadorController extends Controller
         return $trabajador;
     }
 
-    public function servicoTrabajadores(Request $request){
-        return Persona::select('personas.*','users.email')
-            ->join('users','users.persona_id','=','personas.id')
-            ->join('trabajadores','trabajadores.persona_id','=','personas.id')
+    public function servicoTrabajadores(Request $request)
+    {
+        return Persona::select('personas.*', 'users.email')
+            ->join('users', 'users.persona_id', '=', 'personas.id')
+            ->join('trabajadores', 'trabajadores.persona_id', '=', 'personas.id')
             ->join('servicio_trabajador', 'servicio_trabajador.trabajador_id', '=', 'trabajadores.id')
             ->join('servicios', 'servicio_trabajador.servicio_id', '=', 'servicios.id')
-            ->where('servicios.nombre',$request['servicio'])
+            ->where('servicios.nombre', $request['servicio'])
             ->get();
 
     }
