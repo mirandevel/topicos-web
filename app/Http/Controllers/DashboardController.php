@@ -36,7 +36,7 @@ public function usuarios(){
 }
 
     public function solicitudes(){
-        $users = Solicitud::select(Solicitud::raw('count(*) as cantidad'))
+        $users = Solicitud::select('estado',Solicitud::raw('count(*) as cantidad'))
             ->groupBy('estado')
             ->get();
 
