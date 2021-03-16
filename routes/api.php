@@ -60,3 +60,7 @@ Route::post('solicitud', [\App\Http\Controllers\SolicitudController::class, 'cre
 Route::middleware('auth:sanctum')->get('trabajador/solicitud', [\App\Http\Controllers\SolicitudController::class, 'obtenerSolicitudesTrabajador'] )->name('obtenerSolicitudesTrabajador');
 Route::post('trabajador/aceptarrechazar', [\App\Http\Controllers\SolicitudController::class, 'aceptarRechazar'] )->name('aceptarRechazar');
 
+//dashboard
+Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'dashboard'] );
+
+
