@@ -16,7 +16,7 @@ public function dashboard(){
     $i = 0;
     $fechas=[];
     $cantidades=[];
-    foreach ($this->users as $user) {
+    foreach ($users as $user) {
         $fechas[$i] = $user->date;
         $cantidades[$i] = $user->cantidad;
         $i = $i + 1;
