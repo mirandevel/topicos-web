@@ -17,13 +17,16 @@ class BusquedaController extends Controller
             ->join('servicio_trabajador','servicio_trabajador.trabajador_id','=','trabajadores.id')
             ->join('servicios','servicio_trabajador.servicio_id','=','servicios.id')
             ->where('servicios.nombre',$request['servicio'])
-            ->where('trabajadores.habilitado','a')
-            ->where('personas.direccion',$request['direccion']);
-
-            if($request['turno']=='mañana'){
+            ->where('trabajadores.habilitado','a');
+        if($request['direccion']!='Todos') {
+            $personas = $personas->where('personas.direccion', $request['direccion']);
+        }
+            if($request['turno']=='1'){
                $personas=$personas->whereBetween('servicio_trabajador.hora_inicio',['00:00:00','11:59:59']);
             }else{
-                $personas=$personas->whereBetween('servicio_trabajador.hora_fin',['12:00:00','23:59:59']);
+                if($request['turno']=='2') {
+                    $personas = $personas->whereBetween('servicio_trabajador.hora_fin', ['12:00:00', '23:59:59']);
+                }
             }
             //->whereBetween($request['hora'],['servicio_trabajador.hora_inicio','servicio_trabajador.hora_fin']);
             $personas=$personas->distinct()

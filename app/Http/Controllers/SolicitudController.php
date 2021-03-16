@@ -31,7 +31,7 @@ class SolicitudController extends Controller
         $detalle->save();
 
         $solicitud=Solicitud::where('id',$request['solicitud_id'])->first();
-        $solicitud->estado=$request['estado']; //a aceptado,r rechazado, p pendiente
+        $solicitud->estado=$request['estado']; //a aceptado,r rechazado
         $solicitud->save();
 
         return response()->json(['mensaje'=>'Se cambio el estado de la solicitud']);
