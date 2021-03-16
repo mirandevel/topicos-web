@@ -36,20 +36,20 @@ public function usuarios(){
 }
 
     public function solicitudes(){
-        $users = Solicitud::select(Solicitud::raw('DATE(created_at) as date'), Solicitud::raw('count(*) as cantidad'))
-            ->groupBy('date')
+        $users = Solicitud::select(Solicitud::raw('count(*) as cantidad'))
+            ->groupBy('estado')
             ->orderBy('date','asc')
             ->get();
 
         $i = 0;
-        $fechas=[];
+        $estados=[];
         $cantidades=[];
         foreach ($users as $user) {
-            $fechas[$i] = $user->date;
+            $estados[$i] = $user->estado;
             $cantidades[$i] = $user->cantidad;
             $i = $i + 1;
         }
-        $datos['fechas']=$fechas;
+        $datos['estados']=$estados;
         $datos['cantidades']=$cantidades;
         $datos['total_solicitudes']=Solicitud::count();
 
