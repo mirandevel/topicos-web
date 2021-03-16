@@ -9,8 +9,7 @@ class DashboardController extends Controller
 {
 public function dashboard(){
     $users = User::
-    select(User::raw('DATE(created_at) as date'), User::raw('count(*) as cantidad'));
-    $this->users = $this->users
+    select(User::raw('DATE(created_at) as date'), User::raw('count(*) as cantidad'))
         ->groupBy('date')
         ->orderBy('date','asc')
         ->get();
