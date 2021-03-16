@@ -11,6 +11,7 @@ class DashboardController extends Controller
 public function dashboard(){
         $datos['usuarios']=$this->usuarios();
         $datos['solicitudes']=$this->solicitudes();
+        return $datos;
 }
 
 public function usuarios(){
