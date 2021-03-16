@@ -38,7 +38,6 @@ public function usuarios(){
     public function solicitudes(){
         $users = Solicitud::select(Solicitud::raw('count(*) as cantidad'))
             ->groupBy('estado')
-            ->orderBy('date','asc')
             ->get();
 
         $i = 0;
