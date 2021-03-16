@@ -11,7 +11,8 @@ class DetalleSolicitud extends Model
     use HasFactory;
     protected $fillable = [
         'descripcion',
-        'ubicacion',
+        'latitud',
+        'longitud',
         'costo',
         'fecha',
         'solicitud_id',

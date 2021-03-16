@@ -48,7 +48,8 @@ class SolicitudController extends Controller
 
         $detalle=DetalleSolicitud::create([
             'descripcion'=>$request['descripcion'],
-            'ubicacion'=>$request['ubicacion'],
+            'latitud'=>$request['latitud'],
+            'longitud'=>$request['longitud'],
             'costo'=>null,
             'fecha'=>Carbon::now('America/La_Paz')->toDateString(),
             'solicitud_id'=>$solicitud->id,

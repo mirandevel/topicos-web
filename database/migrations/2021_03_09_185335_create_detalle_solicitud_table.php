@@ -16,7 +16,8 @@ class CreateDetalleSolicitudTable extends Migration
         Schema::create('detalle_solicitud', function (Blueprint $table) {
             $table->id();
             $table->text('descripcion');
-            $table->string('ubicacion');
+            $table->double('latitud');
+            $table->double('longitud');
             $table->float('costo')->nullable();
             $table->date('fecha');
 
