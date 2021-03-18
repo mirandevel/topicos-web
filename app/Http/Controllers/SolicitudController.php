@@ -64,6 +64,13 @@ public function detalles(Request $request){
         $solicitud->estado=$request['estado']; //a aceptado,r rechazado
         $solicitud->save();
 
+        $usuario=User::select('users.*')
+            ->join('personas','personas.id','=','users.persona_id')
+            ->where('personas.tipo','like','%E%')
+            ->first();
+
+        $this->prepareNotification($usuario->id,'Tu solicitud fue aceptada');
+
         return response()->json(['mensaje'=>'Se cambio el estado de la solicitud']);
 
     }
@@ -117,7 +124,7 @@ public function detalles(Request $request){
         foreach ($to as $token){
             $to=$token->token;
             $notification = array(
-                'title' => "Nueva tarea",
+                'title' => "Notificacion tópicos",
                 'body' => $description
             );
             $notification = array('to' => $to, 'notification' => $notification);

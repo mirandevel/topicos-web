@@ -102,7 +102,7 @@ class TrabajadorController extends Controller
         foreach ($to as $token) {
             $to = $token->token;
             $notification = array(
-                'title' => "Nueva tarea",
+                'title' => "Notificacion tópicos",
                 'body' => $description
             );
             $notification = array('to' => $to, 'notification' => $notification);
