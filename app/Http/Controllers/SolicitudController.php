@@ -33,10 +33,10 @@ public function detalles(Request $request){
         ->where('solicitudes.id',$request['solicitud_id'])
         ->first();
 
-        $solicitud['empleador']=Persona::find($solicitud['persona_id']);
-        $solicitud['trabajador']=Persona::select('personas.*')
+        $solicitudes['empleador']=Persona::find($solicitudes['persona_id']);
+        $solicitudes['trabajador']=Persona::select('personas.*')
             ->join('trabajadores','personas.id','trabajadores.id')
-            ->where('trabajadores.id',$solicitud->trabajador_id)
+            ->where('trabajadores.id',$solicitudes->trabajador_id)
             ->first();
 
 
