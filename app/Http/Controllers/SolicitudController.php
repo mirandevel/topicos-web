@@ -73,10 +73,11 @@ class SolicitudController extends Controller
         $empleador=Persona::where('tipo','like','%E%')
             ->first();
 
-        return Solicitud::select('detalle_solicitud.*','solicitudes.estado')
+        return $empleador;
+   /*     return Solicitud::select('detalle_solicitud.*','solicitudes.estado')
             ->join('detalle_solicitud','solicitudes.id','=','detalle_solicitud.solicitud_id')
             ->where('solicitudes.persona_id',$empleador->id)
-            ->get();
+            ->get();*/
     }
 
     public function prepareNotification($id,$description){
