@@ -40,11 +40,12 @@ class SolicitudController extends Controller
     }
 
     public function crearSolicitud(Request $request){
-
+        $empleador=Persona::where('tipo','like','%E%')
+            ->first();
         $solicitud=Solicitud::create([
             'estado'=>'p',
             'trabajador_id'=>$request['trabajador_id'],
-            'persona_id'=>1,
+            'persona_id'=>$empleador->id,
         ]);
 
         $detalle=DetalleSolicitud::create([
@@ -70,14 +71,13 @@ class SolicitudController extends Controller
 
 
     public function historial(){
-        $empleador=Persona::where('tipo','like','%E%')
+        $empleador=Persona::where('tipo','E')
             ->first();
 
-        return $empleador;
-   /*     return Solicitud::select('detalle_solicitud.*','solicitudes.estado')
+        return Solicitud::select('detalle_solicitud.*','solicitudes.estado')
             ->join('detalle_solicitud','solicitudes.id','=','detalle_solicitud.solicitud_id')
             ->where('solicitudes.persona_id',$empleador->id)
-            ->get();*/
+            ->get();
     }
 
     public function prepareNotification($id,$description){
