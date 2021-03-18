@@ -27,12 +27,21 @@ class SolicitudController extends Controller
 
     }
 public function detalles(){
-    return Solicitud::select('detalle_solicitud.*','solicitudes.estado','servicios.nombre')
+    $solicitudes= Solicitud::select('detalle_solicitud.*','solicitudes.estado','solicitudes.trabajador_id','solicitudes.persona_id','servicios.nombre')
         ->join('detalle_solicitud','solicitudes.id','=','detalle_solicitud.solicitud_id')
         ->join('servicios','servicios.id','=','detalle_solicitud.servicio_id')
         ->join('personas','personas.id','=','detalle_solicitud.personas.id')
         ->join('trabajadores','solicitudes.trabajador_id','=','trabajadores.id')
         ->get();
+    foreach ($solicitudes as $solicitud){
+        $solicitud['empleador']=Persona::find($solicitud['persona_id']);
+        $solicitud['trabajador']=Persona::select('personas.*')
+            ->join('trabajadores',$solicitudes->trabajador_id,'=','trabajadores.id')
+            ->where('trabajadores.id','personas.id')->first();
+    }
+
+    return $solicitudes;
+
 }
     public function obtenerTodasSolicitudes(){
         return Solicitud::select('detalle_solicitud.*','solicitudes.estado','servicios.nombre')
