@@ -30,7 +30,7 @@ public function detalles(Request $request){
     $solicitudes= Solicitud::select('detalle_solicitud.*','solicitudes.estado','solicitudes.trabajador_id','solicitudes.persona_id','servicios.nombre')
         ->join('detalle_solicitud','solicitudes.id','=','detalle_solicitud.solicitud_id')
         ->join('servicios','servicios.id','=','detalle_solicitud.servicio_id')
-        ->where('solicitud.id',$request['solicitud_id'])
+        ->where('solicitudes.id',$request['solicitud_id'])
         ->get();
     foreach ($solicitudes as $solicitud){
         $solicitud['empleador']=Persona::find($solicitud['persona_id']);
