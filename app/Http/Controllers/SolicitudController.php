@@ -26,7 +26,14 @@ class SolicitudController extends Controller
             ->get();
 
     }
-
+public function detalles(){
+    return Solicitud::select('detalle_solicitud.*','solicitudes.estado','servicios.nombre')
+        ->join('detalle_solicitud','solicitudes.id','=','detalle_solicitud.solicitud_id')
+        ->join('servicios','servicios.id','=','detalle_solicitud.servicio_id')
+        ->join('personas','personas.id','=','detalle_solicitud.personas.id')
+        ->join('trabajadores','solicitudes.trabajador_id','=','trabajadores.id')
+        ->get();
+}
     public function obtenerTodasSolicitudes(){
         return Solicitud::select('detalle_solicitud.*','solicitudes.estado','servicios.nombre')
             ->join('detalle_solicitud','solicitudes.id','=','detalle_solicitud.solicitud_id')
@@ -81,8 +88,9 @@ class SolicitudController extends Controller
         $empleador=Persona::where('tipo','E')
             ->first();
 
-        return Solicitud::select('detalle_solicitud.*','solicitudes.estado')
+        return Solicitud::select('detalle_solicitud.*','solicitudes.estado','servicios.nombre')
             ->join('detalle_solicitud','solicitudes.id','=','detalle_solicitud.solicitud_id')
+            ->join('servicios','servicios.id','=','detalle_solicitud.servicio_id')
             ->where('solicitudes.persona_id',$empleador->id)
             ->get();
     }
