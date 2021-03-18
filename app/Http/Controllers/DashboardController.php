@@ -44,7 +44,14 @@ public function usuarios(){
         $estados=[];
         $cantidades=[];
         foreach ($users as $user) {
-            $estados[$i] = $user->estado;
+            $st='pendiente';
+            if(mb_substr($user->estado)=='a'){
+                $st='aceptada';
+            }
+            if(mb_substr($user->estado)=='r'){
+                $st='rechazada';
+            }
+            $estados[$i] = $st;
             $cantidades[$i] = $user->cantidad;
             $i = $i + 1;
         }
