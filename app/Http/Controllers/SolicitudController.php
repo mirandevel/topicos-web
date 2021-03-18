@@ -26,6 +26,12 @@ class SolicitudController extends Controller
             ->get();
 
     }
+
+    public function obtenerTodasSolicitudes(){
+        return Solicitud::select('detalle_solicitud.*','solicitudes.estado')
+            ->join('detalle_solicitud','solicitudes.id','=','detalle_solicitud.solicitud_id')
+            ->get();
+    }
     public function aceptarRechazar(Request $request){
         $detalle=DetalleSolicitud::where('id',$request['detalle_id'])->first();
         $detalle->costo=$request['costo'];
