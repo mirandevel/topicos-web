@@ -36,8 +36,9 @@ public function detalles(){
     foreach ($solicitudes as $solicitud){
         $solicitud['empleador']=Persona::find($solicitud['persona_id']);
         $solicitud['trabajador']=Persona::select('personas.*')
-            ->join('trabajadores',$solicitud->trabajador_id,'=','trabajadores.id')
-            ->where('trabajadores.id','personas.id')->first();
+            ->where('trabajadores.id','personas.id')
+            ->where('trabajadores.id',$solicitud->trabajador_id)
+            ->first();
     }
 
     return $solicitudes;
