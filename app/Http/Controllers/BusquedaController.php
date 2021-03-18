@@ -17,9 +17,7 @@ class BusquedaController extends Controller
             ->join('servicio_trabajador','servicio_trabajador.trabajador_id','=','trabajadores.id')
             ->join('servicios','servicio_trabajador.servicio_id','=','servicios.id')
             ->where('servicios.nombre',$request['servicio'])
-            ->where('trabajadores.habilitado','like','%a%')
             ->where('trabajadores.habilitado','like','%a%');
-
         if($request['direccion']!='Todos') {
             $personas = $personas->where('personas.direccion', $request['direccion']);
         }
