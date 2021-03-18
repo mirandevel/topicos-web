@@ -43,11 +43,17 @@ public function detalles(Request $request){
     return $solicitudes;
 
 }
-    public function obtenerTodasSolicitudes(){
-        return Solicitud::select('detalle_solicitud.*','solicitudes.estado','servicios.nombre')
+    public function obtenerTodasSolicitudes(Request $request){
+        $solicitudes=Solicitud::select('detalle_solicitud.*','solicitudes.estado','servicios.nombre')
             ->join('detalle_solicitud','solicitudes.id','=','detalle_solicitud.solicitud_id')
-            ->join('servicios','servicios.id','=','detalle_solicitud.servicio_id')
-            ->get();
+            ->join('servicios','servicios.id','=','detalle_solicitud.servicio_id');
+        if ($request['estado'] != 't') {
+            $solicitudes = $solicitudes->where('estado', $request['estado'])->get();
+        } else {
+            $solicitudes = $solicitudes->get();
+        }
+
+        return $solicitudes;
     }
     public function aceptarRechazar(Request $request){
         $detalle=DetalleSolicitud::where('id',$request['detalle_id'])->first();
