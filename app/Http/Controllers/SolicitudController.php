@@ -33,12 +33,12 @@ public function detalles(){
         //->join('personas','personas.id','=','detalle_solicitud.personas.id')
         //->join('trabajadores','solicitudes.trabajador_id','=','trabajadores.id')
         ->get();
-/*    foreach ($solicitudes as $solicitud){
+    foreach ($solicitudes as $solicitud){
         $solicitud['empleador']=Persona::find($solicitud['persona_id']);
         $solicitud['trabajador']=Persona::select('personas.*')
-            ->join('trabajadores',$solicitudes->trabajador_id,'=','trabajadores.id')
+            ->join('trabajadores',$solicitud->trabajador_id,'=','trabajadores.id')
             ->where('trabajadores.id','personas.id')->first();
-    }*/
+    }
 
     return $solicitudes;
 
