@@ -70,12 +70,12 @@ class SolicitudController extends Controller
 
 
     public function historial(){
-        $empleador=Persona::where('tipo','like','%E%')
+        $empleador=Persona::where('tipo','E')
             ->first();
 
         return Solicitud::select('detalle_solicitud.*','solicitudes.estado')
             ->join('detalle_solicitud','solicitudes.id','=','detalle_solicitud.solicitud_id')
-            ->where('solicitudes.trabajador_id',$empleador->id)
+            ->where('solicitudes.persona_id',$empleador->id)
             ->get();
     }
 
