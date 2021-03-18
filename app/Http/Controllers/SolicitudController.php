@@ -32,13 +32,13 @@ public function detalles(Request $request){
         ->join('servicios','servicios.id','=','detalle_solicitud.servicio_id')
         ->where('solicitudes.id',$request['solicitud_id'])
         ->first();
-    foreach ($solicitudes as $solicitud){
+
         $solicitud['empleador']=Persona::find($solicitud['persona_id']);
         $solicitud['trabajador']=Persona::select('personas.*')
             ->join('trabajadores','personas.id','trabajadores.id')
             ->where('trabajadores.id',$solicitud->trabajador_id)
             ->first();
-    }
+
 
     return $solicitudes;
 
