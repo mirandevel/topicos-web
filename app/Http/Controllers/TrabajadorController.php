@@ -32,6 +32,7 @@ class TrabajadorController extends Controller
         return Persona::select('personas.*', 'users.email')
             ->join('users', 'users.persona_id', '=', 'personas.id')
             ->join('trabajadores', 'trabajadores.persona_id', '=', 'personas.id')
+            ->where('trabajadores.habilitado','like','%a%')
             ->get();
     }
 
