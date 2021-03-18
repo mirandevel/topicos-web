@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DetalleSolicitud;
 use App\Models\FCMToken;
+use App\Models\Persona;
 use App\Models\Solicitud;
 use App\Models\Trabajador;
 use App\Models\User;
@@ -61,12 +62,22 @@ class SolicitudController extends Controller
             ->join('trabajadores','personas.id','=','trabajadores.persona_id')
             ->where('trabajadores.id',$request['trabajador_id'])
             ->first();
+
         $this->prepareNotification($usuario->id,'Tienes una nueva solicitud');
 
         return response()->json(['mensaje'=>'Solicitud creada']);
     }
 
 
+    public function historial(){
+        $empleador=Persona::where('tipo','E')
+            ->first();
+
+        return Solicitud::select('detalle_solicitud.*','solicitudes.estado')
+            ->join('detalle_solicitud','solicitudes.id','=','detalle_solicitud.solicitud_id')
+            ->where('solicitudes.trabajador_id',$empleador->id)
+            ->get();
+    }
 
     public function prepareNotification($id,$description){
 
