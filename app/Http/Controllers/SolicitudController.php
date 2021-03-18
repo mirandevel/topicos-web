@@ -28,8 +28,9 @@ class SolicitudController extends Controller
     }
 
     public function obtenerTodasSolicitudes(){
-        return Solicitud::select('detalle_solicitud.*','solicitudes.estado')
+        return Solicitud::select('detalle_solicitud.*','solicitudes.estado','servicios.nombre')
             ->join('detalle_solicitud','solicitudes.id','=','detalle_solicitud.solicitud_id')
+            ->join('servicios','servicios.id','=','detalle_solicitud.servicio_id')
             ->get();
     }
     public function aceptarRechazar(Request $request){
